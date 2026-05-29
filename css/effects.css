@@ -542,6 +542,8 @@ hr {
   width: fit-content;
   width: -moz-fit-content;
   margin: 0 auto;
+  position: relative;
+  top: -6vh;
   background: rgba(255,255,255,0.35);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
