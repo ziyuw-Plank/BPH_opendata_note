@@ -163,6 +163,16 @@
     background: linear-gradient(to bottom, transparent 0%, rgba(20,20,19,0.6) 70%, rgba(20,20,19,0.95) 100%);
   }
 
+  :root:not([data-user-color-scheme]) #banner #subtitle {
+    color: #fff !important;
+  }
+
+  :root:not([data-user-color-scheme]) #banner .banner-text {
+    background: rgba(20,20,19,0.45);
+    border-color: rgba(255,255,255,0.10);
+    box-shadow: 0 2px 20px rgba(0,0,0,0.15);
+  }
+
   :root:not([data-user-color-scheme]) .modal-backdrop {
     background: rgba(0,0,0,0.4);
   }
@@ -531,10 +541,27 @@ hr {
   font-weight: 700;
   font-size: 2rem;
   letter-spacing: -0.01em;
-  color: #fff;
+  color: var(--text-primary);
   text-align: center;
   max-width: var(--content-width);
-  text-shadow: 0 1px 4px rgba(0,0,0,0.2);
+  background: rgba(255,255,255,0.35);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255,255,255,0.4);
+  border-radius: 16px;
+  padding: 1.2rem 2rem;
+  box-shadow: 0 2px 20px rgba(0,0,0,0.06);
+}
+
+#banner .banner-text,
+#banner .banner-text * {
+  color: #fff;
+}
+
+[data-user-color-scheme="dark"] #banner .banner-text {
+  background: rgba(20,20,19,0.45);
+  border-color: rgba(255,255,255,0.10);
+  box-shadow: 0 2px 20px rgba(0,0,0,0.15);
 }
 
 #banner .banner-text .h2 {
@@ -542,14 +569,21 @@ hr {
   font-weight: 800;
   font-size: 3rem;
   letter-spacing: -0.015em;
-  color: #fff;
-  text-shadow: 0 1px 8px rgba(0,0,0,0.25);
+  color: var(--text-primary);
+}
+
+#banner #subtitle {
+  color: #fff !important;
+}
+
+[data-user-color-scheme="dark"] #banner #subtitle {
+  color: #fff !important;
 }
 
 #banner .post-meta {
   font-family: var(--font-sans);
   font-size: 0.9rem;
-  color: rgba(255,255,255,0.75);
+  color: var(--text-secondary);
 }
 
 #banner .scroll-down-bar {
