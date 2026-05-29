@@ -543,7 +543,10 @@ hr {
   letter-spacing: -0.01em;
   color: var(--text-primary);
   text-align: center;
-  max-width: var(--content-width);
+  width: fit-content;
+  width: -moz-fit-content;
+  max-width: calc(var(--content-width) - 2rem);
+  margin: 0 auto;
   background: rgba(255,255,255,0.35);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
@@ -551,6 +554,7 @@ hr {
   border-radius: 24px;
   padding: 1rem 2.2rem;
   box-shadow: 0 2px 20px rgba(0,0,0,0.06);
+  transition: width 0.15s ease, opacity 0.4s ease, transform 0.5s cubic-bezier(.22,1,.36,1);
 }
 
 #banner .banner-text,
