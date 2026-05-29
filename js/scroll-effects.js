@@ -20,6 +20,7 @@
     var banner = document.getElementById('banner');
     var navbar = document.getElementById('navbar');
     var scrollBtn = document.getElementById('scroll-top-button');
+    var scrollArrow = document.querySelector('.scroll-down-bar');
     var ticking = false;
 
     function update() {
@@ -32,6 +33,11 @@
         var progress = Math.min(scrollY / (bannerHeight * 0.55), 1);
         var opacity = Math.max(0, 1 - progress);
         banner.style.opacity = opacity.toFixed(2);
+      }
+
+      /* Scroll-down arrow: hide when scrolled */
+      if (scrollArrow) {
+        scrollArrow.style.opacity = scrollY < 100 ? '0.7' : '0';
       }
 
       /* Navbar: subtle style change on scroll */

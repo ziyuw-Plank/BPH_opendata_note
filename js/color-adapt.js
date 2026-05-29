@@ -158,20 +158,6 @@
     root.style.setProperty('--navbar-text-color', '#' + toHex(textSec));
     root.style.setProperty('--line-color', 'rgba(' + rgbStr(textPri) + ',' + borderAlpha + ')');
 
-    /* also update the banner ::after gradient so it blends into the new bg */
-    var gradientColor = 'rgba(' + rgbStr(bg1) + ',';
-    var style = document.getElementById('banner-after-style');
-    if (!style) {
-      style = document.createElement('style');
-      style.id = 'banner-after-style';
-      document.head.appendChild(style);
-    }
-    style.textContent =
-      '#banner::after { background: linear-gradient(to bottom, transparent 0%, ' +
-      gradientColor + '0.6) 70%, ' + gradientColor + '0.95) 100%); }' +
-      '[data-user-color-scheme="dark"] #banner::after { background: linear-gradient(to bottom, transparent 0%, ' +
-      'rgba(20,20,19,0.6) 70%, rgba(20,20,19,0.95) 100%); }';
-
     console.log('[color-adapt] Palette derived from banner image — bg: #' + toHex(bg1) +
                 ' text: #' + toHex(textPri) + ' light:' + isLight + ' dark:' + isDark);
   }
