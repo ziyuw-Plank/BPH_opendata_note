@@ -3,24 +3,31 @@
   var subtitle = document.getElementById('subtitle');
   if (!subtitle) return;
   var fullText = subtitle.getAttribute('data-typed-text') || subtitle.innerText || '';
-  var index = 0;
   var speed = 70;
   var cursor = '_';
   subtitle.innerText = '';
-  subtitle.style.visibility = 'visible';
+  subtitle.style.opacity = '1';
 
-  function typeChar() {
+  var bannerText = document.querySelector('#banner .banner-text');
+  if (bannerText) {
+    bannerText.style.transition = 'opacity 0.4s ease, transform 0.5s cubic-bezier(.22,1,.36,1)';
+    bannerText.style.opacity = '0';
+    bannerText.style.transform = 'scale(0.96)';
+    requestAnimationFrame(function() {
+      bannerText.style.opacity = '1';
+      bannerText.style.transform = 'scale(1)';
+    });
+  }
+
+  var index = 0;
+  function typeNext() {
     if (index < fullText.length) {
       subtitle.innerText = fullText.substring(0, index + 1) + cursor;
       index++;
-      setTimeout(typeChar, speed);
+      setTimeout(typeNext, speed);
     } else {
-      var show = true;
-      setInterval(function() {
-        subtitle.innerText = fullText + (show ? cursor : ' ');
-        show = !show;
-      }, 530);
+      subtitle.innerText = fullText;
     }
   }
-  typeChar();
+  setTimeout(typeNext, 350);
 })();
