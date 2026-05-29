@@ -2,7 +2,6 @@
   'use strict';
 
   var overlay = null;
-  var glass = null;
   var transitioning = false;
 
   function createOverlay() {
@@ -10,7 +9,7 @@
     overlay = document.createElement('div');
     overlay.className = 'liquid-transition-overlay';
     overlay.setAttribute('aria-hidden', 'true');
-    glass = document.createElement('div');
+    var glass = document.createElement('div');
     glass.className = 'liquid-glass';
     overlay.appendChild(glass);
     document.body.appendChild(overlay);
@@ -56,20 +55,6 @@
     }, 500);
   }
 
-  /* Page-load reveal: glass fades out after page is ready */
-  function pageLoadReveal() {
-    createOverlay();
-    showOverlay();
-    /* Wait for fonts + images to start loading, then fade out */
-    var ready = performance.now();
-    var delay = Math.max(0, 600 - ready);
-    setTimeout(function() {
-      hideOverlay();
-      transitioning = false;
-    }, delay);
-  }
-
-  /* Click handler: intercept internal navigation links */
   document.addEventListener('click', function(e) {
     var link = e.target.closest('a');
     if (!link) return;
@@ -78,17 +63,10 @@
     navigateTo(link.href);
   });
 
-  /* Init */
-  if (document.readyState === 'complete' || document.readyState === 'interactive') {
-    pageLoadReveal();
-  } else {
-    window.addEventListener('DOMContentLoaded', pageLoadReveal);
-  }
-
-  /* Handle back/forward navigation */
   window.addEventListener('pageshow', function(e) {
-    if (e.persisted) {
-      pageLoadReveal();
+    if (e.persisted && overlay) {
+      hideOverlay();
+      transitioning = false;
     }
   });
 
