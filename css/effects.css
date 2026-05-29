@@ -545,6 +545,7 @@ hr {
   text-align: center;
   width: fit-content;
   width: -moz-fit-content;
+  min-width: 320px;
   max-width: calc(var(--content-width) - 2rem);
   margin: 0 auto;
   background: rgba(255,255,255,0.35);
@@ -1429,33 +1430,17 @@ img.lazyload.loaded {
   }
 
   #banner {
-    min-height: 30vh;
+    min-height: 24vh;
   }
 
   #banner .banner-text {
-    font-size: 1.3rem;
+    font-size: 1.1rem;
+    min-width: 220px;
+    padding: 0.7rem 1.2rem;
   }
 
-  .index-card {
-    padding: 1.8rem 0;
-  }
-
-  .index-card .index-header a {
-    font-size: 1.05rem;
-  }
-}
-
-@media (max-width: 767.98px) {
-  h1 { font-size: 1.6rem; }
-  h2 { font-size: 1.25rem; }
-  h3 { font-size: 1.1rem; }
-
-  .post-content h1 {
-    font-size: 1.7rem;
-  }
-
-  .post-content h2 {
-    font-size: 1.2rem;
+  #banner .banner-text .h2 {
+    font-size: 1.5rem;
   }
 
   .navbar {
