@@ -2,10 +2,25 @@
   'use strict';
   var subtitle = document.getElementById('subtitle');
   if (!subtitle) return;
-  var fullText = subtitle.getAttribute('data-typed-text') || subtitle.innerText || '';
+
+  var fullText;
+  var slogansEl = document.getElementById('slogans-data');
+  if (slogansEl) {
+    try {
+      var slogans = JSON.parse(slogansEl.textContent);
+      if (slogans.length > 0) {
+        fullText = slogans[Math.floor(Math.random() * slogans.length)];
+      }
+    } catch (e) {}
+  }
+  if (!fullText) {
+    fullText = subtitle.getAttribute('data-typed-text') || subtitle.innerText || '';
+  }
+
   var speed = 70;
   var cursor = '_';
   subtitle.innerText = '';
+  subtitle.style.visibility = 'visible';
   subtitle.style.opacity = '1';
 
   var bannerText = document.querySelector('#banner .banner-text');
