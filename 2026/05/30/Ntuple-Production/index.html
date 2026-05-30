@@ -28,7 +28,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://ziyuw-plank.github.io/BPH_opendata_note/img/NTupleProduction.png">
 <meta property="article:published_time" content="2026-05-29T19:28:05.000Z">
-<meta property="article:modified_time" content="2026-05-30T04:12:41.516Z">
+<meta property="article:modified_time" content="2026-05-30T06:03:58.784Z">
 <meta property="article:author" content="ziyuw">
 <meta property="article:tag" content="b-physics">
 <meta property="article:tag" content="cms-opendata">
@@ -487,7 +487,7 @@ mjx-container[display="true"] + br {
 </ol>
 <p>The overall package is called <code>BJpsiPhiK2011</code> and lives inside the standard CMSSW plugin framework.</p>
 <h2 id="The-Decay-Chain"><a href="#The-Decay-Chain" class="headerlink" title="The Decay Chain"></a>The Decay Chain</h2><p>The full decay we reconstruct is</p>
-<figure class="highlight mathematica"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs mathematica"><span class="hljs-variable">B</span>⁺  →  <span class="hljs-variable">J</span><span class="hljs-operator">/</span>ψ  <span class="hljs-operator">+</span>  φ  <span class="hljs-operator">+</span>  <span class="hljs-built_in">K</span>⁺<br>         <span class="hljs-operator">|</span>         <span class="hljs-operator">|</span><br>       μ⁺μ⁻      <span class="hljs-built_in">K</span>⁺<span class="hljs-built_in">K</span>⁻<br></code></pre></td></tr></table></figure>
+<figure class="highlight mathematica"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs mathematica"><span class="hljs-variable">B</span>⁺  →  <span class="hljs-variable">J</span><span class="hljs-operator">/</span>ψ  <span class="hljs-operator">+</span>  φ  <span class="hljs-operator">+</span>  <span class="hljs-built_in">K</span>⁺<br>        <span class="hljs-operator">|</span>      <span class="hljs-operator">|</span><br>       μ⁺μ⁻   <span class="hljs-built_in">K</span>⁺<span class="hljs-built_in">K</span>⁻<br></code></pre></td></tr></table></figure>
 
 <p>Five final-state tracks in total: two muons from J/ψ, two kaons from φ, and one bachelor kaon. This means the main combinatorial background grows as O(N²_μ × N³_K), which motivates aggressive but physics-safe pre-selection at every stage.</p>
 <h2 id="Selection-Cuts-at-a-Glance"><a href="#Selection-Cuts-at-a-Glance" class="headerlink" title="Selection Cuts at a Glance"></a>Selection Cuts at a Glance</h2><p>Before diving into the code, here is the full cut table. Cuts are applied in order from cheapest to most expensive (vertex fitting is the bottleneck).</p>
