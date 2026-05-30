@@ -18,9 +18,9 @@
             
             <tag> b-physics </tag>
             
-            <tag> htcondor </tag>
-            
             <tag> statistics </tag>
+            
+            <tag> htcondor </tag>
             
             <tag> toy-monte-carlo </tag>
             
@@ -47,9 +47,9 @@
             
             <tag> root </tag>
             
-            <tag> statistics </tag>
-            
             <tag> roofit </tag>
+            
+            <tag> statistics </tag>
             
         </tags>
       
