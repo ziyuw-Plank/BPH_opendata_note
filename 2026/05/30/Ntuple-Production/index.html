@@ -28,7 +28,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://ziyuw-plank.github.io/BPH_opendata_note/img/NTupleProduction.png">
 <meta property="article:published_time" content="2026-05-29T19:28:05.000Z">
-<meta property="article:modified_time" content="2026-05-29T20:22:45.787Z">
+<meta property="article:modified_time" content="2026-05-30T04:12:41.516Z">
 <meta property="article:author" content="ziyuw">
 <meta property="article:tag" content="b-physics">
 <meta property="article:tag" content="cms-opendata">
@@ -433,7 +433,7 @@ mjx-container[display="true"] + br {
         
         
         
-          79 分钟
+          80 分钟
         
       </span>
     
@@ -629,6 +629,18 @@ mjx-container[display="true"] + br {
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># Quick checks in PyROOT / ROOT macro</span><br>t.Draw(<span class="hljs-string">"X_Jpsics_Jpsi_M"</span>)         <span class="hljs-comment"># should show a clean J/psi peak at 3.097 GeV</span><br>t.Draw(<span class="hljs-string">"X_Jpsics_phi_M"</span>)          <span class="hljs-comment"># should show phi(1020) peak at 1.020 GeV</span><br>t.Draw(<span class="hljs-string">"X_Jpsics_M"</span>)              <span class="hljs-comment"># should show B+ signal around 5.279 GeV</span><br>t.Draw(<span class="hljs-string">"X_Jpsics_vtxfit_prob"</span>)    <span class="hljs-comment"># should be flat (uniform in [0,1]) for combinatorial bg</span><br></code></pre></td></tr></table></figure>
 
 <p>If the J/ψ peak is badly smeared or the B mass is shifted by more than ~5 MeV, the most likely culprit is a global tag mismatch between the AOD file and the <code>process.GlobalTag</code> setting in your config.</p>
+<h2 id="Fit-Results"><a href="#Fit-Results" class="headerlink" title="Fit Results"></a>Fit Results</h2><table>
+<thead>
+<tr>
+<th>Dataset A</th>
+<th>Dataset B</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><img src="/BPH_opendata_note/img/ntuple/mass_fit_resultA.png" srcset="/BPH_opendata_note/img/loading.gif" lazyload></td>
+<td><img src="/BPH_opendata_note/img/ntuple/mass_fit_resultB.png" srcset="/BPH_opendata_note/img/loading.gif" lazyload></td>
+</tr>
+</tbody></table>
 <h2 id="What’s-Next"><a href="#What’s-Next" class="headerlink" title="What’s Next"></a>What’s Next</h2><p>With a validated NTuple in hand, the next step is the B mass fit: we model the signal with a double Gaussian and the combinatorial background with an exponential, fit for the B⁺ yield, and extract the sideband windows used for the φ sideband subtraction and the sPlot weights. That is covered in Part 3.</p>
 
                 
