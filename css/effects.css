@@ -532,6 +532,14 @@ hr {
   background: rgba(0,0,0,0.40) !important;
 }
 
+/* Override theme's preserve-3d which conflicts with backdrop-filter */
+#banner[parallax="true"] {
+  -webkit-transform-style: flat;
+  transform-style: flat;
+  -webkit-backface-visibility: visible;
+  backface-visibility: visible;
+}
+
 #banner .banner-text {
   font-family: var(--font-heading);
   font-weight: 700;
@@ -553,7 +561,7 @@ hr {
   padding: 1rem 2.2rem;
   box-shadow: 0 2px 20px rgba(0,0,0,0.06);
   transition: opacity 0.4s ease, transform 0.5s cubic-bezier(.22,1,.36,1);
-  will-change: transform;
+  transform: translateZ(0);
   contain: layout style;
 }
 
