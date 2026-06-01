@@ -80,17 +80,33 @@
      ============================================================ */
 
   function initRevealAnimations() {
-    if (!window.IntersectionObserver) return;
+    if (!window.IntersectionObserver) {
+      /* No IO support — skip the reveal choreography entirely
+         so we never leave content hidden at opacity 0. */
+      return;
+    }
+
+    var vh = window.innerHeight || document.documentElement.clientHeight;
+
+    /* Helper: reveal immediately if the element is already in the
+       viewport (or only just below the fold).  Prevents the
+       "blank until you scroll" failure mode for very tall
+       elements whose intersection ratio never crosses the
+       threshold while the page is at scrollY=0. */
+    function maybeRevealNow(el) {
+      var rect = el.getBoundingClientRect();
+      if (rect.top < vh + 80 && rect.bottom > -80) {
+        el.classList.add('fx-visible');
+        return true;
+      }
+      return false;
+    }
 
     /* Elements that fade in gently */
     var revealTargets = document.querySelectorAll(
       '.index-card, .post-content h2, .post-content h3, ' +
       '.post-prevnext, .about-info, .archive-list-item, .category-list-item'
     );
-
-    for (var i = 0; i < revealTargets.length; i++) {
-      revealTargets[i].classList.add('fx-reveal');
-    }
 
     var revealObserver = new IntersectionObserver(function(entries) {
       for (var k = 0; k < entries.length; k++) {
@@ -99,10 +115,13 @@
           revealObserver.unobserve(entries[k].target);
         }
       }
-    }, { threshold: 0.06, rootMargin: '0px 0px -30px 0px' });
+    }, { threshold: 0.04, rootMargin: '0px 0px 0px 0px' });
 
-    for (var j = 0; j < revealTargets.length; j++) {
-      revealObserver.observe(revealTargets[j]);
+    for (var i = 0; i < revealTargets.length; i++) {
+      var t = revealTargets[i];
+      if (maybeRevealNow(t)) continue;
+      t.classList.add('fx-reveal');
+      revealObserver.observe(t);
     }
 
     /* Staggered content sections */
@@ -112,6 +131,7 @@
 
     for (var m = 0; m < staggerTargets.length; m++) {
       var el = staggerTargets[m];
+      if (maybeRevealNow(el)) continue;
       el.classList.add('fx-stagger');
 
       var staggerObs = new IntersectionObserver(function(target) {
@@ -123,7 +143,7 @@
             }
           }
         };
-      }(el), { threshold: 0.04 });
+      }(el), { threshold: 0, rootMargin: '0px 0px 200px 0px' });
 
       staggerObs.observe(el);
     }
