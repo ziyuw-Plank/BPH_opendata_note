@@ -45,11 +45,11 @@
             
             <tag> b-physics </tag>
             
+            <tag> root </tag>
+            
             <tag> roofit </tag>
             
             <tag> statistics </tag>
-            
-            <tag> root </tag>
             
         </tags>
       
@@ -72,11 +72,11 @@
             
             <tag> b-physics </tag>
             
-            <tag> root </tag>
-            
             <tag> cmssw </tag>
             
             <tag> edanalyzer </tag>
+            
+            <tag> root </tag>
             
         </tags>
       

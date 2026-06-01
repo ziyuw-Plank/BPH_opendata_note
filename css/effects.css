@@ -1529,3 +1529,835 @@ img.lazyload.loaded {
     text-decoration: underline;
   }
 }
+
+/* ============================================================
+   ============================================================
+   UNIFIED GLASS + DEPTH SYSTEM
+   Adds dimensional layering, ambient color refraction,
+   and consistent frosted-glass surfaces site-wide.
+   ============================================================
+   ============================================================ */
+
+:root {
+  /* Glass surface tokens */
+  --glass-bg:          rgba(255,255,255,0.55);
+  --glass-bg-soft:     rgba(255,255,255,0.32);
+  --glass-bg-strong:   rgba(255,255,255,0.78);
+  --glass-tint:        rgba(247,245,242,0.62);
+  --glass-tint-strong: rgba(247,245,242,0.85);
+  --glass-border:      rgba(255,255,255,0.55);
+  --glass-border-soft: rgba(255,255,255,0.28);
+  --glass-highlight:   rgba(255,255,255,0.85);
+  --glass-blur:        20px;
+  --glass-blur-soft:   12px;
+  --glass-blur-strong: 32px;
+  --glass-sat:         1.7;
+  --glass-bright:      1.04;
+
+  /* Layered elevation shadows */
+  --shadow-1:
+    0 1px 2px rgba(0,0,0,0.04),
+    0 2px 6px rgba(0,0,0,0.03);
+  --shadow-2:
+    0 1px 2px rgba(0,0,0,0.04),
+    0 6px 16px -4px rgba(0,0,0,0.06),
+    0 12px 32px -10px rgba(0,0,0,0.08);
+  --shadow-3:
+    0 1px 2px rgba(0,0,0,0.05),
+    0 8px 20px -4px rgba(0,0,0,0.08),
+    0 20px 48px -12px rgba(0,0,0,0.12);
+  --shadow-4:
+    0 2px 4px rgba(0,0,0,0.06),
+    0 12px 28px -6px rgba(0,0,0,0.10),
+    0 28px 64px -16px rgba(0,0,0,0.18);
+
+  /* Rim-light insets */
+  --rim-light:        inset 0 1px 0 rgba(255,255,255,0.7);
+  --rim-light-strong: inset 0 1px 0 rgba(255,255,255,0.9), inset 0 -1px 0 rgba(0,0,0,0.04);
+  --rim-ring:         inset 0 0 0 1px rgba(255,255,255,0.30);
+}
+
+[data-user-color-scheme="dark"] {
+  --glass-bg:          rgba(40,40,38,0.50) !important;
+  --glass-bg-soft:     rgba(40,40,38,0.30) !important;
+  --glass-bg-strong:   rgba(20,20,19,0.78) !important;
+  --glass-tint:        rgba(20,20,19,0.62) !important;
+  --glass-tint-strong: rgba(20,20,19,0.85) !important;
+  --glass-border:      rgba(255,255,255,0.10) !important;
+  --glass-border-soft: rgba(255,255,255,0.06) !important;
+  --glass-highlight:   rgba(255,255,255,0.16) !important;
+
+  --shadow-1:
+    0 1px 2px rgba(0,0,0,0.22),
+    0 2px 6px rgba(0,0,0,0.14) !important;
+  --shadow-2:
+    0 1px 2px rgba(0,0,0,0.22),
+    0 6px 16px -4px rgba(0,0,0,0.30),
+    0 12px 32px -10px rgba(0,0,0,0.40) !important;
+  --shadow-3:
+    0 1px 2px rgba(0,0,0,0.25),
+    0 8px 20px -4px rgba(0,0,0,0.38),
+    0 20px 48px -12px rgba(0,0,0,0.50) !important;
+  --shadow-4:
+    0 2px 4px rgba(0,0,0,0.30),
+    0 12px 28px -6px rgba(0,0,0,0.42),
+    0 28px 64px -16px rgba(0,0,0,0.60) !important;
+
+  --rim-light:        inset 0 1px 0 rgba(255,255,255,0.14) !important;
+  --rim-light-strong: inset 0 1px 0 rgba(255,255,255,0.20), inset 0 -1px 0 rgba(0,0,0,0.30) !important;
+  --rim-ring:         inset 0 0 0 1px rgba(255,255,255,0.06) !important;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-user-color-scheme]) {
+    --glass-bg:          rgba(40,40,38,0.50) !important;
+    --glass-bg-soft:     rgba(40,40,38,0.30) !important;
+    --glass-bg-strong:   rgba(20,20,19,0.78) !important;
+    --glass-tint:        rgba(20,20,19,0.62) !important;
+    --glass-tint-strong: rgba(20,20,19,0.85) !important;
+    --glass-border:      rgba(255,255,255,0.10) !important;
+    --glass-border-soft: rgba(255,255,255,0.06) !important;
+    --glass-highlight:   rgba(255,255,255,0.16) !important;
+
+    --shadow-1:
+      0 1px 2px rgba(0,0,0,0.22),
+      0 2px 6px rgba(0,0,0,0.14) !important;
+    --shadow-2:
+      0 1px 2px rgba(0,0,0,0.22),
+      0 6px 16px -4px rgba(0,0,0,0.30),
+      0 12px 32px -10px rgba(0,0,0,0.40) !important;
+    --shadow-3:
+      0 1px 2px rgba(0,0,0,0.25),
+      0 8px 20px -4px rgba(0,0,0,0.38),
+      0 20px 48px -12px rgba(0,0,0,0.50) !important;
+    --shadow-4:
+      0 2px 4px rgba(0,0,0,0.30),
+      0 12px 28px -6px rgba(0,0,0,0.42),
+      0 28px 64px -16px rgba(0,0,0,0.60) !important;
+
+    --rim-light:        inset 0 1px 0 rgba(255,255,255,0.14) !important;
+    --rim-light-strong: inset 0 1px 0 rgba(255,255,255,0.20), inset 0 -1px 0 rgba(0,0,0,0.30) !important;
+    --rim-ring:         inset 0 0 0 1px rgba(255,255,255,0.06) !important;
+  }
+}
+
+/* ============================================================
+   AMBIENT BACKDROP — intentionally restrained.
+   No color blobs: just the design-token base color so the
+   depth effects come purely from shadow + frosted glass.
+   ============================================================ */
+
+body {
+  background-color: var(--bg-primary) !important;
+}
+
+/* Body content sits in its natural stacking flow. */
+body > * { position: relative; }
+
+/* ============================================================
+   GLASS — NAVBAR (iOS-style frosted glass, smoothly transitioning
+   between a near-transparent rest state and a richer, blurred,
+   slightly-tinted state when content scrolls underneath.)
+   ============================================================ */
+
+:root {
+  --ease-ios: cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+.navbar {
+  background: linear-gradient(180deg,
+                rgba(247,245,242,0.55) 0%,
+                rgba(247,245,242,0.42) 100%) !important;
+  backdrop-filter: blur(16px) saturate(1.6) brightness(1.02);
+  -webkit-backdrop-filter: blur(16px) saturate(1.6) brightness(1.02);
+  border-bottom: 1px solid rgba(0,0,0,0) !important;
+  box-shadow:
+    var(--rim-light),
+    0 1px 0 rgba(0,0,0,0),
+    0 0 0 0 rgba(0,0,0,0) !important;
+  transition:
+    background 0.65s var(--ease-ios),
+    border-color 0.55s var(--ease-ios),
+    box-shadow 0.65s var(--ease-ios),
+    backdrop-filter 0.65s var(--ease-ios),
+    -webkit-backdrop-filter 0.65s var(--ease-ios),
+    padding 0.55s var(--ease-ios) !important;
+  will-change: backdrop-filter, background, box-shadow;
+}
+
+.navbar.top-nav-collapse {
+  background: linear-gradient(180deg,
+                rgba(247,245,242,0.86) 0%,
+                rgba(247,245,242,0.72) 100%) !important;
+  backdrop-filter: blur(28px) saturate(1.9) brightness(1.04);
+  -webkit-backdrop-filter: blur(28px) saturate(1.9) brightness(1.04);
+  border-bottom: 1px solid rgba(0,0,0,0.06) !important;
+  box-shadow:
+    var(--rim-light),
+    0 1px 0 rgba(0,0,0,0.02),
+    0 18px 44px -20px rgba(0,0,0,0.12) !important;
+}
+
+[data-user-color-scheme="dark"] .navbar {
+  background: linear-gradient(180deg,
+                rgba(20,20,19,0.50) 0%,
+                rgba(20,20,19,0.36) 100%) !important;
+  border-bottom-color: rgba(255,255,255,0) !important;
+  box-shadow:
+    var(--rim-light),
+    0 0 0 0 rgba(0,0,0,0) !important;
+}
+
+[data-user-color-scheme="dark"] .navbar.top-nav-collapse {
+  background: linear-gradient(180deg,
+                rgba(20,20,19,0.86) 0%,
+                rgba(20,20,19,0.72) 100%) !important;
+  border-bottom-color: rgba(255,255,255,0.08) !important;
+  box-shadow:
+    var(--rim-light),
+    0 1px 0 rgba(255,255,255,0.02),
+    0 18px 44px -20px rgba(0,0,0,0.45) !important;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-user-color-scheme]) .navbar {
+    background: linear-gradient(180deg,
+                  rgba(20,20,19,0.50) 0%,
+                  rgba(20,20,19,0.36) 100%) !important;
+    border-bottom-color: rgba(255,255,255,0) !important;
+  }
+  :root:not([data-user-color-scheme]) .navbar.top-nav-collapse {
+    background: linear-gradient(180deg,
+                  rgba(20,20,19,0.86) 0%,
+                  rgba(20,20,19,0.72) 100%) !important;
+    border-bottom-color: rgba(255,255,255,0.08) !important;
+    box-shadow:
+      var(--rim-light),
+      0 1px 0 rgba(255,255,255,0.02),
+      0 18px 44px -20px rgba(0,0,0,0.45) !important;
+  }
+}
+
+/* Smooth fade of nav text colour together with the bar */
+.navbar .navbar-brand,
+.navbar .nav-link {
+  transition:
+    color 0.55s var(--ease-ios),
+    opacity 0.55s var(--ease-ios) !important;
+}
+
+/* ============================================================
+   GLASS — BANNER TEXT CARD (premium frosted pill with rim & glow)
+   ============================================================ */
+
+#banner .banner-text {
+  position: relative;
+  background:
+    linear-gradient(135deg,
+      rgba(255,255,255,0.46) 0%,
+      rgba(255,255,255,0.24) 60%,
+      rgba(255,255,255,0.32) 100%);
+  backdrop-filter: blur(28px) saturate(1.85) brightness(1.06);
+  -webkit-backdrop-filter: blur(28px) saturate(1.85) brightness(1.06);
+  border: 1px solid rgba(255,255,255,0.55);
+  border-radius: 28px;
+  padding: 1.3rem 2.6rem;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.85),
+    inset 0 -1px 0 rgba(255,255,255,0.16),
+    inset 0 0 0 1px rgba(255,255,255,0.18),
+    0 4px 14px -2px rgba(0,0,0,0.08),
+    0 18px 44px -12px rgba(0,0,0,0.20),
+    0 36px 80px -24px rgba(0,0,0,0.22);
+  overflow: hidden;
+}
+
+#banner .banner-text::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(180deg,
+                rgba(255,255,255,0.35) 0%,
+                rgba(255,255,255,0.00) 38%);
+  pointer-events: none;
+  mix-blend-mode: overlay;
+}
+
+[data-user-color-scheme="dark"] #banner .banner-text {
+  background:
+    linear-gradient(135deg,
+      rgba(40,40,38,0.55) 0%,
+      rgba(20,20,19,0.40) 60%,
+      rgba(40,40,38,0.50) 100%);
+  border: 1px solid rgba(255,255,255,0.14);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.20),
+    inset 0 -1px 0 rgba(0,0,0,0.20),
+    inset 0 0 0 1px rgba(255,255,255,0.06),
+    0 4px 14px -2px rgba(0,0,0,0.30),
+    0 18px 44px -12px rgba(0,0,0,0.45),
+    0 36px 80px -24px rgba(0,0,0,0.55);
+}
+
+[data-user-color-scheme="dark"] #banner .banner-text::before {
+  background: linear-gradient(180deg,
+                rgba(255,255,255,0.08) 0%,
+                rgba(255,255,255,0.00) 38%);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-user-color-scheme]) #banner .banner-text {
+    background:
+      linear-gradient(135deg,
+        rgba(40,40,38,0.55) 0%,
+        rgba(20,20,19,0.40) 60%,
+        rgba(40,40,38,0.50) 100%);
+    border: 1px solid rgba(255,255,255,0.14);
+    box-shadow:
+      inset 0 1px 0 rgba(255,255,255,0.20),
+      inset 0 -1px 0 rgba(0,0,0,0.20),
+      inset 0 0 0 1px rgba(255,255,255,0.06),
+      0 4px 14px -2px rgba(0,0,0,0.30),
+      0 18px 44px -12px rgba(0,0,0,0.45),
+      0 36px 80px -24px rgba(0,0,0,0.55);
+  }
+}
+
+/* ============================================================
+   INDEX CARDS — editorial flow + subtle float on hover
+   ============================================================ */
+
+.index-card {
+  position: relative;
+  padding: 2rem 1.4rem !important;
+  border-radius: 18px !important;
+  border: 1px solid transparent !important;
+  border-bottom: 1px solid var(--border-color) !important;
+  background: transparent;
+  transition:
+    background 0.45s var(--ease-editorial),
+    border-color 0.45s var(--ease-editorial),
+    box-shadow 0.45s var(--ease-editorial),
+    transform 0.55s var(--ease-out-expo),
+    backdrop-filter 0.45s var(--ease-editorial) !important;
+  backdrop-filter: blur(0);
+  -webkit-backdrop-filter: blur(0);
+}
+
+.index-card:hover {
+  background: var(--glass-tint);
+  backdrop-filter: blur(16px) saturate(1.6);
+  -webkit-backdrop-filter: blur(16px) saturate(1.6);
+  border: 1px solid var(--glass-border-soft) !important;
+  box-shadow:
+    var(--rim-light),
+    var(--shadow-2);
+  transform: translateY(-3px) !important;
+}
+
+.index-card .index-img img {
+  border-radius: 12px;
+  transition: transform 0.6s var(--ease-out-expo),
+              box-shadow 0.45s var(--ease-editorial),
+              filter 0.45s var(--ease-editorial);
+  box-shadow: var(--shadow-1);
+  filter: saturate(0.92) contrast(0.98);
+}
+
+.index-card:hover .index-img img {
+  transform: scale(1.015);
+  box-shadow: var(--shadow-3);
+  filter: saturate(1) contrast(1);
+}
+
+/* ============================================================
+   BOARD — solid base background; depth from rim light + soft
+   drop-shadow at the seam against the banner.
+   ============================================================ */
+
+#board {
+  background: var(--bg-secondary) !important;
+  border-radius: 20px 20px 0 0 !important;
+  border-top: 1px solid var(--border-color) !important;
+  box-shadow:
+    var(--rim-light),
+    0 -1px 0 var(--border-color),
+    0 -2px 12px -4px rgba(0,0,0,0.05),
+    0 -24px 64px -32px rgba(0,0,0,0.10);
+  position: relative;
+}
+
+[data-user-color-scheme="dark"] #board {
+  background: var(--bg-secondary) !important;
+  box-shadow:
+    var(--rim-light),
+    0 -1px 0 var(--border-color),
+    0 -2px 12px -4px rgba(0,0,0,0.30),
+    0 -24px 64px -32px rgba(0,0,0,0.50);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-user-color-scheme]) #board {
+    background: var(--bg-secondary) !important;
+    box-shadow:
+      var(--rim-light),
+      0 -1px 0 var(--border-color),
+      0 -2px 12px -4px rgba(0,0,0,0.30),
+      0 -24px 64px -32px rgba(0,0,0,0.50);
+  }
+}
+
+/* ============================================================
+   POST — gentle elevated content
+   ============================================================ */
+
+.post-content {
+  padding: 3.5rem 0 5rem;
+}
+
+.markdown-body img {
+  box-shadow: var(--shadow-2);
+  transition: transform 0.5s var(--ease-out-expo),
+              box-shadow 0.45s var(--ease-editorial);
+}
+
+.markdown-body img:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-3);
+}
+
+/* ============================================================
+   POST META — refined glass pill
+   ============================================================ */
+
+.post-copyright {
+  background: var(--glass-tint) !important;
+  backdrop-filter: blur(14px) saturate(1.5);
+  -webkit-backdrop-filter: blur(14px) saturate(1.5);
+  border: 1px solid var(--glass-border-soft) !important;
+  border-radius: 14px !important;
+  box-shadow:
+    var(--rim-light),
+    var(--shadow-1) !important;
+}
+
+/* ============================================================
+   CODE BLOCKS — slight glass + lift
+   ============================================================ */
+
+pre,
+.highlight {
+  background: var(--glass-tint) !important;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid var(--glass-border-soft) !important;
+  border-radius: 12px !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.45),
+    var(--shadow-1);
+}
+
+[data-user-color-scheme="dark"] pre,
+[data-user-color-scheme="dark"] .highlight {
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.08),
+    var(--shadow-1);
+}
+
+code {
+  background: var(--glass-tint) !important;
+  border: 1px solid var(--glass-border-soft);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.4);
+  border-radius: 5px !important;
+  padding: 0.12em 0.45em !important;
+}
+
+[data-user-color-scheme="dark"] code {
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.05);
+}
+
+pre code {
+  background: none !important;
+  border: 0;
+  box-shadow: none;
+  padding: 0 !important;
+}
+
+/* ============================================================
+   TOC SIDEBAR — sticky glass panel.
+
+   We attach the glass styling to `#toc` (not the `aside.sidebar`
+   wrapper) so the theme's initial `#toc { visibility:hidden }`
+   keeps the panel hidden until tocbot has actually populated it.
+
+   Critically, we do NOT change the inner link box-model.  The
+   Fluid theme + tocbot rely on
+       .toc-list-item   { display:-webkit-box; -webkit-line-clamp:2 }
+       .toc-list-item::before { position:absolute; ... }   (highlight bar)
+   Touching the link's display / padding / radius shifts the
+   click target away from the visible bar and de-syncs hover
+   feedback from cursor position.
+   ============================================================ */
+
+aside.sidebar {
+  /* Theme default is `top: 2rem` which sits BEHIND the fixed
+     navbar (~4rem tall, z-index: 1020) — the navbar then covers
+     the first TOC entry and silently steals its clicks.  Push
+     the sticky anchor below the navbar and lift the sidebar's
+     own stacking context above any page-flow siblings.  The
+     top padding is what gives the glass card breathing room and
+     3D lift; keep it generous but inside the cleared band. */
+  position: -webkit-sticky !important;
+  position: sticky !important;
+  top: 5.5rem !important;
+  z-index: 5;
+  padding-top: 1.25rem !important;
+  padding-bottom: 1.5rem !important;
+  max-height: calc(100vh - 7rem);
+}
+
+#toc {
+  position: relative;
+  background: var(--glass-tint);
+  backdrop-filter: blur(20px) saturate(1.6);
+  -webkit-backdrop-filter: blur(20px) saturate(1.6);
+  border: 1px solid var(--glass-border-soft);
+  border-radius: 14px;
+  padding: 1.1rem 1.2rem;
+  box-shadow:
+    var(--rim-light),
+    var(--shadow-2);
+  max-height: calc(100vh - 7.5rem);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+#toc .toc-header {
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: 0.72rem !important;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+  margin: 0 0 0.6rem 0 !important;
+  padding-bottom: 0.6rem;
+  border-bottom: 1px solid var(--border-color);
+  flex: 0 0 auto;
+}
+
+#toc .toc-header > i {
+  font-size: 0.85rem !important;
+  margin-right: 0.4rem;
+}
+
+#toc .toc-body,
+#toc #toc-body {
+  flex: 1 1 auto;
+  max-height: none !important;
+  overflow-y: auto;
+  padding-right: 0.3rem;
+}
+
+#toc .toc-body::-webkit-scrollbar,
+#toc #toc-body::-webkit-scrollbar { width: 4px; }
+#toc .toc-body::-webkit-scrollbar-thumb,
+#toc #toc-body::-webkit-scrollbar-thumb {
+  background: var(--glass-border-soft);
+  border-radius: 4px;
+}
+#toc .toc-body::-webkit-scrollbar-track,
+#toc #toc-body::-webkit-scrollbar-track { background: transparent; }
+
+/* Link colour + hover ONLY — no display / padding / radius change. */
+.tocbot-link {
+  color: var(--text-secondary) !important;
+  opacity: 0.78;
+  transition: color 0.25s var(--ease-editorial),
+              opacity 0.25s var(--ease-editorial);
+}
+
+.tocbot-link:hover {
+  color: var(--text-primary) !important;
+  opacity: 1;
+}
+
+.tocbot-active-link {
+  color: var(--text-primary) !important;
+  opacity: 1;
+  font-weight: 600 !important;
+}
+
+/* Strengthen the theme's native active bar (the absolute ::before
+   on .toc-list-item.is-active-li) — without altering its geometry. */
+.toc-list-item.is-active-li::before {
+  background: var(--text-primary) !important;
+  width: 0.18rem !important;
+  border-radius: 2px;
+  box-shadow: 0 0 0 0.5px rgba(0,0,0,0.04);
+}
+
+[data-user-color-scheme="dark"] .toc-list-item.is-active-li::before {
+  box-shadow: 0 0 0 0.5px rgba(255,255,255,0.06);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-user-color-scheme]) .toc-list-item.is-active-li::before {
+    box-shadow: 0 0 0 0.5px rgba(255,255,255,0.06);
+  }
+}
+
+/* ============================================================
+   SEARCH MODAL — premium glass surface
+   ============================================================ */
+
+#modalSearch .modal-content {
+  background: var(--glass-tint-strong) !important;
+  backdrop-filter: blur(36px) saturate(1.8);
+  -webkit-backdrop-filter: blur(36px) saturate(1.8);
+  border: 1px solid var(--glass-border) !important;
+  border-radius: 18px !important;
+  box-shadow:
+    var(--rim-light-strong),
+    var(--shadow-4) !important;
+  overflow: hidden;
+}
+
+#modalSearch .modal-header {
+  border-bottom: 1px solid var(--glass-border-soft) !important;
+}
+
+#modalSearch .form-control {
+  background: var(--glass-bg) !important;
+  border: 1px solid var(--glass-border-soft) !important;
+  border-radius: 10px !important;
+  box-shadow: var(--rim-light), 0 1px 2px rgba(0,0,0,0.03);
+  backdrop-filter: blur(6px);
+}
+
+#modalSearch .form-control:focus {
+  background: var(--glass-bg-strong) !important;
+  border-color: var(--glass-border) !important;
+  box-shadow: var(--rim-light), 0 0 0 3px rgba(0,0,0,0.04) !important;
+}
+
+.modal-backdrop {
+  background: rgba(0,0,0,0.18) !important;
+  backdrop-filter: blur(10px) saturate(1.3) !important;
+  -webkit-backdrop-filter: blur(10px) saturate(1.3) !important;
+}
+
+[data-user-color-scheme="dark"] .modal-backdrop {
+  background: rgba(0,0,0,0.50) !important;
+}
+
+/* ============================================================
+   SCROLL-TOP — glass pill with rim light
+   ============================================================ */
+
+#scroll-top-button {
+  width: 42px !important;
+  height: 42px !important;
+  background: var(--glass-tint-strong) !important;
+  backdrop-filter: blur(18px) saturate(1.6);
+  -webkit-backdrop-filter: blur(18px) saturate(1.6);
+  border: 1px solid var(--glass-border) !important;
+  box-shadow:
+    var(--rim-light),
+    var(--shadow-2) !important;
+}
+
+#scroll-top-button:hover {
+  background: var(--glass-bg-strong) !important;
+  box-shadow:
+    var(--rim-light-strong),
+    var(--shadow-3) !important;
+  transform: translateY(-2px);
+}
+
+#scroll-top-button i {
+  color: var(--text-secondary);
+}
+
+/* ============================================================
+   MOBILE GRID MENU — glass panel
+   ============================================================ */
+
+#mobile-grid-menu {
+  background: var(--glass-tint-strong) !important;
+  backdrop-filter: blur(20px) saturate(1.6) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(1.6) !important;
+  border-top: 1px solid var(--glass-border-soft) !important;
+  box-shadow:
+    var(--rim-light),
+    0 -8px 24px -8px rgba(0,0,0,0.06);
+}
+
+/* ============================================================
+   TAGS — glass pills with subtle depth
+   ============================================================ */
+
+.tagcloud a,
+.tag-list a {
+  background: var(--glass-bg-soft);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid var(--glass-border-soft) !important;
+  border-radius: 999px !important;
+  padding: 0.36em 0.95em !important;
+  box-shadow: var(--rim-light), 0 1px 2px rgba(0,0,0,0.03);
+  transition:
+    background 0.3s var(--ease-editorial),
+    border-color 0.3s var(--ease-editorial),
+    box-shadow 0.3s var(--ease-editorial),
+    transform 0.4s var(--ease-out-expo),
+    opacity 0.3s var(--ease-editorial);
+}
+
+.tagcloud a:hover,
+.tag-list a:hover {
+  background: var(--glass-bg);
+  border-color: var(--glass-border) !important;
+  box-shadow: var(--rim-light), var(--shadow-1);
+  transform: translateY(-2px);
+  opacity: 0.95 !important;
+}
+
+/* ============================================================
+   BUTTONS — consistent depth
+   ============================================================ */
+
+.btn {
+  background: var(--glass-bg-soft) !important;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid var(--glass-border-soft) !important;
+  border-radius: 10px !important;
+  box-shadow: var(--rim-light), 0 1px 2px rgba(0,0,0,0.03);
+  transition:
+    background 0.3s var(--ease-editorial),
+    border-color 0.3s var(--ease-editorial),
+    box-shadow 0.3s var(--ease-editorial),
+    transform 0.35s var(--ease-out-expo) !important;
+}
+
+.btn:hover {
+  background: var(--glass-bg) !important;
+  border-color: var(--glass-border) !important;
+  box-shadow: var(--rim-light), var(--shadow-2) !important;
+  transform: translateY(-1px);
+  opacity: 1 !important;
+}
+
+.btn:active {
+  transform: translateY(0);
+  box-shadow: var(--rim-light), 0 1px 2px rgba(0,0,0,0.05) !important;
+}
+
+/* ============================================================
+   LIQUID GLASS PAGE TRANSITION — slightly richer refraction
+   ============================================================ */
+
+.liquid-glass {
+  background:
+    linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.36) 0%,
+      rgba(255, 255, 255, 0.18) 30%,
+      rgba(255, 255, 255, 0.08) 70%,
+      rgba(255, 255, 255, 0.03) 100%
+    );
+  backdrop-filter: blur(72px) saturate(1.85) brightness(1.05);
+  -webkit-backdrop-filter: blur(72px) saturate(1.85) brightness(1.05);
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.55),
+    inset 0 0 80px rgba(255, 255, 255, 0.04),
+    0 0 0 1px rgba(0, 0, 0, 0.04);
+}
+
+/* ============================================================
+   INDEX CARD INNER TYPOGRAPHY adjustments to fit float
+   ============================================================ */
+
+.index-card .index-info {
+  padding: 0 0.6rem;
+}
+
+@media (max-width: 991.98px) {
+  .index-card {
+    padding: 1.6rem 0.8rem !important;
+  }
+  .index-card:hover {
+    transform: translateY(-2px) !important;
+  }
+  .sidebar #toc,
+  aside.sidebar {
+    position: static;
+    max-height: none;
+    overflow: visible;
+  }
+  #toc {
+    max-height: none;
+  }
+  #toc .toc-body,
+  #toc #toc-body {
+    max-height: none !important;
+    overflow: visible;
+  }
+}
+
+/* ============================================================
+   FORM CONTROLS — unified glass field
+   ============================================================ */
+
+input,
+textarea,
+select {
+  background: var(--glass-bg-soft) !important;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid var(--glass-border-soft) !important;
+  border-radius: 10px !important;
+  box-shadow: var(--rim-light), inset 0 1px 2px rgba(0,0,0,0.02);
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  background: var(--glass-bg) !important;
+  border-color: var(--glass-border) !important;
+  box-shadow:
+    var(--rim-light),
+    0 0 0 3px rgba(0,0,0,0.04) !important;
+}
+
+/* ============================================================
+   FOOTER — quiet glass strip
+   ============================================================ */
+
+footer {
+  border-top: 1px solid var(--glass-border-soft);
+  background: linear-gradient(180deg,
+                transparent 0%,
+                var(--glass-tint) 100%);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+/* ============================================================
+   REDUCED MOTION — disable lift transforms
+   ============================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  .index-card:hover,
+  .btn:hover,
+  .tagcloud a:hover,
+  .tag-list a:hover,
+  #scroll-top-button:hover,
+  .markdown-body img:hover {
+    transform: none !important;
+  }
+}
+
