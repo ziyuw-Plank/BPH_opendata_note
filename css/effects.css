@@ -643,7 +643,7 @@ hr {
   padding-bottom: 6rem;
   background: var(--bg-secondary);
   position: relative;
-  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  border-radius: var(--radius-lg);
   border-top: 1px solid var(--border-color);
 }
 
@@ -1878,7 +1878,7 @@ body > * { position: relative; }
 
 #board {
   background: var(--bg-secondary) !important;
-  border-radius: 20px 20px 0 0 !important;
+  border-radius: 20px !important;
   border-top: 1px solid var(--border-color) !important;
   box-shadow:
     var(--rim-light),
