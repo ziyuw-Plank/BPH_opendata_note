@@ -3,7 +3,7 @@
    Digital publication + AI lab + modern magazine typography
    ============================================================ */
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=LXGW+WenKai:wght@400;700&family=Noto+Serif+SC:wght@400;600;700&family=Playfair+Display:ital,wght@0,600;0,700;0,800;1,600;1,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;1,500;1,600;1,700&family=LXGW+WenKai:wght@400;700&family=Noto+Serif+SC:wght@400;600;700&family=Space+Grotesk:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap');
 
 /* ============================================================
    DESIGN TOKENS
@@ -25,11 +25,11 @@
   --radius-lg: 8px;
   --ease-editorial: cubic-bezier(.22,1,.36,1);
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
-  --font-heading: 'Playfair Display', 'Noto Serif SC', Georgia, 'Times New Roman', serif;
-  --font-body: 'Inter', 'LXGW WenKai', -apple-system, BlinkMacSystemFont, 'PingFang SC', 'MiSans', sans-serif;
-  --font-serif: 'Noto Serif SC', 'LXGW WenKai', 'Source Han Serif SC', 'STSong', Georgia, serif;
+  --font-heading: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+  --font-body: 'Space Grotesk', 'LXGW WenKai', -apple-system, BlinkMacSystemFont, 'PingFang SC', 'MiSans', sans-serif;
+  --font-serif: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
   --font-sans: var(--font-body);
-  --font-mono: 'JetBrains Mono', 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+  --font-mono: 'Space Mono', ui-monospace, 'SF Mono', 'Cascadia Code', monospace;
   --content-width: 720px;
 
   /* Theme CSS variable overrides */
@@ -2361,3 +2361,211 @@ footer {
   }
 }
 
+/* ============================================================
+   SCULPTURE ART — dithered marble ornaments
+   ============================================================ */
+
+.rk-art-hero {
+  position: absolute;
+  right: clamp(16px, 6vw, 96px);
+  bottom: 0;
+  height: 84%;
+  aspect-ratio: 780 / 1044;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0;
+  animation: rk-fade-in 1.1s ease-out 0.4s forwards;
+  will-change: transform;
+}
+
+.rk-art-hero::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: url('/BPH_opendata_note/img/art/philosopher-ink.png') center bottom / contain no-repeat;
+  opacity: 0.46;
+  mix-blend-mode: multiply;
+  animation: rk-bob 7s ease-in-out 1.6s infinite;
+}
+
+[data-user-color-scheme="dark"] .rk-art-hero::after {
+  background-image: url('/BPH_opendata_note/img/art/philosopher-bone.png');
+  opacity: 0.62;
+  mix-blend-mode: screen;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-user-color-scheme]) .rk-art-hero::after {
+    background-image: url('/BPH_opendata_note/img/art/philosopher-bone.png');
+    opacity: 0.62;
+    mix-blend-mode: screen;
+  }
+}
+
+.rk-art-justice {
+  position: fixed;
+  right: max(-70px, -5vw);
+  bottom: -5vh;
+  height: min(94vh, 920px);
+  aspect-ratio: 680 / 910;
+  pointer-events: none;
+  z-index: -1;
+  opacity: 0;
+  animation: rk-fade-in 1.3s ease-out 0.45s forwards;
+}
+
+.rk-art-justice::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: url('/BPH_opendata_note/img/art/justice-ink.png') center bottom / contain no-repeat;
+  opacity: 0.20;
+  animation: rk-bob 9s ease-in-out 2s infinite;
+}
+
+[data-user-color-scheme="dark"] .rk-art-justice::after {
+  background-image: url('/BPH_opendata_note/img/art/justice-bone.png');
+  opacity: 0.28;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-user-color-scheme]) .rk-art-justice::after {
+    background-image: url('/BPH_opendata_note/img/art/justice-bone.png');
+    opacity: 0.28;
+  }
+}
+
+@media (max-width: 1199.98px) {
+  .rk-art-justice { display: none; }
+}
+
+@keyframes rk-fade-in {
+  to { opacity: 1; }
+}
+
+@keyframes rk-bob {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-9px); }
+}
+
+@media (max-width: 991.98px) {
+  .rk-art-hero { height: 56%; }
+}
+
+@media (max-width: 575.98px) {
+  .rk-art-hero { display: none; }
+}
+
+/* ============================================================
+   MICRO-MOTION — ryoku-style fast ease
+   ============================================================ */
+
+.navbar .nav-link {
+  position: relative;
+}
+
+.navbar .nav-link::after {
+  content: '';
+  position: absolute;
+  left: 0.9rem;
+  right: 0.9rem;
+  bottom: 2px;
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 170ms cubic-bezier(.215,.61,.355,1);
+}
+
+.navbar .nav-link:hover::after,
+.navbar .nav-link.active::after {
+  transform: scaleX(1);
+}
+
+#banner .scroll-down-bar i {
+  animation: rk-drift 2.6s cubic-bezier(.215,.61,.355,1) infinite;
+}
+
+@keyframes rk-drift {
+  0%, 100% { transform: translateY(0);   opacity: 0.85; }
+  50%      { transform: translateY(6px); opacity: 0.45; }
+}
+
+/* ============================================================
+   DEPTH — tilt, spotlight, elevation
+   ============================================================ */
+
+.index-card {
+  position: relative;
+  transform-style: preserve-3d;
+}
+
+.index-card:hover {
+  box-shadow: 0 24px 48px -22px rgba(31,27,22,0.28),
+              0 4px 14px -8px rgba(31,27,22,0.12);
+}
+
+[data-user-color-scheme="dark"] .index-card:hover {
+  box-shadow: 0 24px 48px -22px rgba(0,0,0,0.65),
+              0 4px 14px -8px rgba(0,0,0,0.4);
+}
+
+.rk-tilt-active {
+  transition: none !important;
+}
+
+.rk-spot {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 350ms cubic-bezier(.215,.61,.355,1);
+  background: radial-gradient(340px circle at var(--mx, 50%) var(--my, 50%),
+              rgba(255,251,240,0.55), transparent 58%);
+  mix-blend-mode: soft-light;
+}
+
+.index-card:hover .rk-spot {
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rk-art-hero,
+  .rk-art-justice,
+  .rk-art-hero::after,
+  .rk-art-justice::after,
+  #banner .scroll-down-bar i {
+    animation: none !important;
+  }
+
+  .rk-art-hero, .rk-art-justice { opacity: 1; transform: none; }
+
+  .navbar .nav-link::after,
+  .rk-spot {
+    transition: none;
+  }
+}
+
+
+/* ============================================================
+   HEADINGS — calligraphic italic (Cormorant Garamond)
+   ============================================================ */
+
+h1, h2, h3, h4, h5, h6,
+.navbar-brand,
+#banner .banner-text .h2,
+.index-header a {
+  font-style: italic;
+  font-weight: 700 !important;
+  letter-spacing: 0.005em;
+}
+
+h1 { font-size: 2.3rem; }
+h2 { font-size: 1.75rem; }
+h3 { font-size: 1.45rem; }
+
+blockquote {
+  font-style: italic;
+  font-size: 1.15rem;
+}
